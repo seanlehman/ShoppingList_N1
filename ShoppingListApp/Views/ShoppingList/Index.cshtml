@@ -1,0 +1,36 @@
+﻿@model IEnumerable<ShoppingListApp.Models.ShoppingList>
+
+@{
+    ViewBag.Title = "Shopping Lists";
+}
+
+<br />
+<h2>Shopping Lists</h2>
+
+<div style="float: right; margin-bottom: 6px;">
+    @Html.ActionLink("Add List", "Create", null, new { @class = "btn btn-default" })
+</div>
+
+<hr style="clear: both" />
+
+<table class="table">
+    <tr bgcolor="#D3D3D3">
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th style="width: 22%;">Options</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td style="color: @item.Color">
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Show", "ItemsByList", "ShoppingListItem", new { id=item.Id }, new { @class = "btn btn-default" }) 
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }, new { @class="btn btn-default" }) 
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id }, new { @class = "btn btn-default" })
+        </td>
+    </tr>
+}
+</table>

@@ -1,0 +1,33 @@
+﻿Testing Document
+Team 1 - Dave, Mitch, and Bret
+
+
+Bronze
+
+
+
+
+1. _____        - Add new items.
+
+
+1. _____        - Persist items to a data store.
+
+
+1. _____        - Check off items.
+
+
+1. _____        - Clear items.
+
+
+Silver
+
+
+
+
+1. _____ - Deleting of individual items.
+
+
+1. _____ - Edit items
+
+
+1. _____ - Adding notes to items.
