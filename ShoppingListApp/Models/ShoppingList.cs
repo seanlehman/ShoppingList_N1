@@ -6,7 +6,7 @@ using System.Web;
 
 namespace ShoppingListApp.Models
 {
-    public class ShoppingList
+    public abstract class ShoppingList
     {
         public int Id { get; set; }
         public string Name { get; set; }

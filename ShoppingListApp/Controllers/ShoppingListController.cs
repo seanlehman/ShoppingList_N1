@@ -34,7 +34,10 @@ namespace ShoppingListApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ShoppingList shoppingList = db.ShoppingLists.Find(id);
+            //ShoppingList shoppingList = db.ShoppingLists.Find(id);
+
+            ShoppingList shoppingList = db.ShoppingLists.Include(s => s.Files).SingleOrDefault(s => s.Id == id);
+
             if (shoppingList == null)
             {
                 return HttpNotFound();
@@ -53,10 +56,25 @@ namespace ShoppingListApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Color,CreatedUtc,ModifiedUtc")] ShoppingList shoppingList)
+        public ActionResult Create([Bind(Include = "Id,Name,Color,CreatedUtc,ModifiedUtc")] ShoppingList shoppingList, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    var avatar = new File
+                    {
+                        FileName = System.IO.Path.GetFileName(upload.FileName),
+                        FileType = FileType.Avatar,
+                        ContentType = upload.ContentType
+                    };
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        avatar.Content = reader.ReadBytes(upload.ContentLength);
+                    }
+                    ShoppingList.Files = new List<File> { avatar };
+                }
+
                 shoppingList.CreatedUtc = DateTime.UtcNow;
                 shoppingList.ModifiedUtc = DateTime.UtcNow;
                 db.ShoppingLists.Add(shoppingList);
